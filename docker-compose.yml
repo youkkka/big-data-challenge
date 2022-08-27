@@ -37,3 +37,21 @@ services:
     image: bitnami/cassandra
     ports:
       - 9042:9042
+
+  python-scripts:
+    image: python:3
+    volumes:
+      - .:/project
+    # ports:
+    #   - 9042:9042
+    #   - 9092:9092
+    #   - 8080:8080
+    #   - 2181:2181
+    depends_on:
+      - cassandra
+      - kafka
+      - spark
+    command: ["python", "/project/scripts/pubsub/starter.py"]
+    
+
+    
