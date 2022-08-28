@@ -19,8 +19,10 @@ services:
       - ZOOKEPER_HOST=host.docker.internal
       - ZOOKEPER_PORT=2181
 
-  spark:
+  spark-master:
     image: bitnami/spark
+    volumes:
+      - .:/project
     ports:
       - 8080:8080
     environment:
@@ -30,19 +32,19 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
   
-  cassandra:
-    image: bitnami/cassandra
-    ports:
-      - 9042:9042
+  # cassandra:
+  #   image: bitnami/cassandra
+  #   ports:
+  #     - 9042:9042
 
   python-scripts:
     image: python:3
     volumes:
       - .:/project
     depends_on:
-      - cassandra
+      # - cassandra
       - kafka
-      - spark
+      - spark-master
     command: ["python", "/project/scripts/starter.py"]
     
 

@@ -1,12 +1,10 @@
 """ Generate test data to send to Kafka """
 
-print('producer')
-
 import random
 from time import sleep
 from json import dumps
-
-from kafka import KafkaProducer, KafkaClient
+import pykafka
+# from kafka import KafkaProducer, KafkaClient
 
 ################################################################################
 # Import test data
@@ -22,8 +20,8 @@ TEST_DATA = [
 # Set up producer
 ################################################################################
 
-KAFKA = KafkaClient('kafka:9092')
-PRODUCER = KafkaProducer(
+KAFKA = pykafka.client.KafkaClient('kafka:9092')
+PRODUCER = pykafka.producer.KafkaProducer(
     bootstrap_servers='kafka:9092',
     client_id='test-producer'
 )
