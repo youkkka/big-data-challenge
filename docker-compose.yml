@@ -43,7 +43,7 @@ services:
       - cassandra
       - kafka
       - spark
-    command: ["python", "/project/scripts/pubsub/starter.py"]
+    command: ["python", "/project/scripts/starter.py"]
     
 
     
