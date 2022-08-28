@@ -1,11 +1,13 @@
 version: "3.0"
 services:
+
   zookeeper:
     image: ubuntu/zookeeper
     ports:
       - 2181:2181
     environment:
       - TZ=UTC
+
   kafka:
     image: ubuntu/kafka
     depends_on:
@@ -16,12 +18,7 @@ services:
       - TZ=UTC
       - ZOOKEPER_HOST=host.docker.internal
       - ZOOKEPER_PORT=2181
-  # zeppelin:
-  #   image: apache/zeppelin:0.10.0
-  #   depends_on:
-  #     - kafka
-  #   ports:
-  #     - 8080:8080
+
   spark:
     image: bitnami/spark
     ports:
@@ -42,11 +39,6 @@ services:
     image: python:3
     volumes:
       - .:/project
-    # ports:
-    #   - 9042:9042
-    #   - 9092:9092
-    #   - 8080:8080
-    #   - 2181:2181
     depends_on:
       - cassandra
       - kafka
