@@ -41,5 +41,5 @@ MySQL database is up and accessible via adminer on localhost:8081. As an example
 
 Word count can run but does not output any results in console due to output mode (for aggregated queries it is either "complete" or "update" which cannot be printed ad-hoc as opposed to "append"). To get printed results and not a silent spark node, I decided to print dataframe with words.
 
-Also, at the moment printed results contain not only "apple" and "orange" but some noise such as "apple'},"id":{..." It is due to specific string format of kafka data and split parameters. It was not instantly srtraightforward how to split the data using several symbols and I put on low-priority.
+Also, at the moment printed results contain not only "apple" and "orange" but some noise such as "apple'},"id":{..." It is due to specific string format of kafka data and split parameters. It was not instantly srtraightforward how to split the data using several symbols and I put it on low-priority.
 
