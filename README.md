@@ -31,7 +31,7 @@ Kafka producer runs in python-scripts container, gets connected to Twitter-API a
 
 Kafka consumer runs in spark container, subcribes to topic "twitter" from kafka-producer and gets the stream.
 
-With Structured Streaming Spark gets data stream from kafka consumer, particions it into separate words and filters only those that start with "apple" or "orange". After filtering, Spark outputs results in mini-batches to docker console.
+With Structured Streaming Spark gets data stream from kafka consumer, partitions it into separate words and filters only those that start with "apple" or "orange". After filtering, Spark outputs results in mini-batches to docker console.
 
 ## Work In Progress
 
