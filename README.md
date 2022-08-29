@@ -17,7 +17,7 @@ Project contains file docker-compose.yml that consists of six containers:
 
 Make sure you have docker engine and docker compose installed. 
 
-From Twitter-API get Twitter consumer and access tokens and put them in twitter_keys.py. These keys are sensitive data and I'm not sure how to handle this in a public repository but I will demonstrate the running example during the interview.
+From Twitter-API get Twitter bearer_token and put it in twitter_keys.py. These keys are sensitive data (they are regenerated after I accidently commited them here :) ) and I'm not sure how to handle this in a public repository but I will demonstrate the running example during the interview.
 
 In command line go to the project directory and run
 
