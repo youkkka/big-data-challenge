@@ -15,7 +15,11 @@ Project contains file docker-compose.yml that consists of six containers:
 
 ## How to run the project?
 
-Make sure you have docker engine and docker compose installed. In command line go to project directory and run
+Make sure you have docker engine and docker compose installed. 
+
+From Twitter-API get Twitter consumer and access tokens and put them in twitter_keys.py. These keys are sensitive data and I'm not sure how to handle this in a public repository but I will demonstrate the running example during the interview.
+
+In command line go to the project directory and run
 
 ```
 docker-compose up
