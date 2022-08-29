@@ -2,6 +2,7 @@ import pykafka
 import tweepy
 from tweepy import Stream, StreamRule
 import twitter_keys
+import json
 
 bearer_token = twitter_keys.bearer_token
 
@@ -14,6 +15,11 @@ class KafkaPushListener(tweepy.StreamingClient):
         self.producer = self.client.topics[bytes("twitter", "ascii")].get_producer()
 
     def on_data(self, data):
+        # data = data.decode("utf-8")
+        # d = json.loads(data.decode("utf-8"))
+        # d = d['data']
+        # print(d)
+        # data = bytes(str(d), "ascii")
         print(data)
         self.producer.produce(data)
         return True
@@ -27,9 +33,9 @@ class KafkaPushListener(tweepy.StreamingClient):
 
 twitter_stream = KafkaPushListener(bearer_token)
 
-print(twitter_stream.get_rules())
-# twitter_stream.delete_rules(ids=['1563977449230286850'])
-twitter_stream.add_rules(StreamRule('(happy OR happiness OR excited OR elated) lang:en -birthday -is:retweet -holidays'))
-print(twitter_stream.get_rules())
+# print(twitter_stream.get_rules())
+# twitter_stream.delete_rules(ids=['1564004005008875523', '1563995451443085317'])
+twitter_stream.add_rules(StreamRule('(mother OR father) lang:en -is:retweet'))
+# print(twitter_stream.get_rules())
 
 twitter_stream.filter()
