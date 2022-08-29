@@ -15,7 +15,11 @@ Project contains file docker-compose.yml that consists of six containers:
 
 ## How to run the project?
 
-Make sure you have docker engine and docker compose installed. In command line go to project directory and run
+Make sure you have docker engine and docker compose installed. 
+
+From Twitter-API get Twitter bearer_token and put it in twitter_keys.py. These keys are sensitive data (they are regenerated after I accidently commited them here :) ) and I'm not sure how to handle this in a public repository but I will demonstrate the running example during the interview.
+
+In command line go to the project directory and run
 
 ```
 docker-compose up
@@ -31,7 +35,7 @@ Kafka producer runs in python-scripts container, gets connected to Twitter-API a
 
 Kafka consumer runs in spark container, subcribes to topic "twitter" from kafka-producer and gets the stream.
 
-With Structured Streaming Spark gets data stream from kafka consumer, particions it into separate words and filters only those that start with "apple" or "orange". After filtering, Spark outputs results in mini-batches to docker console.
+With Structured Streaming Spark gets data stream from kafka consumer, partitions it into separate words and filters only those that start with "apple" or "orange". After filtering, Spark outputs results in mini-batches to docker console.
 
 ## Work In Progress
 
@@ -41,5 +45,5 @@ MySQL database is up and accessible via adminer on localhost:8081. As an example
 
 Word count can run but does not output any results in console due to output mode (for aggregated queries it is either "complete" or "update" which cannot be printed ad-hoc as opposed to "append"). To get printed results and not a silent spark node, I decided to print dataframe with words.
 
-Also, at the moment printed results contain not only "apple" and "orange" but some noise such as "apple'},"id":{..." It is due to specific string format of kafka data and split parameters. It was not instantly srtraightforward how to split the data using several symbols and I put on low-priority.
+Also, at the moment printed results contain not only "apple" and "orange" but some noise such as "apple'},"id":{..." It is due to specific string format of kafka data and split parameters. It was not instantly srtraightforward how to split the data using several symbols and I put it on low-priority.
 
