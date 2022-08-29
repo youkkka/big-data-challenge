@@ -33,9 +33,9 @@ twitter_stream = KafkaPushListener(bearer_token)
 
 # some commented lines to manage the rules, they are stored in twitter api
 # print(twitter_stream.get_rules())
-# twitter_stream.delete_rules(ids=['1564004005008875523', '1563995451443085317'])
+# twitter_stream.delete_rules(ids=['1564249362288590849'])
 
-# all tweets that have mother or father in english not reposted
-twitter_stream.add_rules(tweepy.StreamRule('(mother OR father) lang:en -is:retweet'))
-
+# all tweets that have one or the other in english not reposted
+twitter_stream.add_rules(tweepy.StreamRule('(apple OR orange) lang:en -is:retweet'))
+# print(twitter_stream.get_rules())
 twitter_stream.filter()

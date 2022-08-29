@@ -59,13 +59,13 @@ if __name__ == "__main__":
     users = words.filter(col("word").startswith("@"))
     hashtags = words.filter(col("word").startswith("#"))
 
-    # get only words mother and father (also getting some noise such as strings starting with mother but having somethingg else)
-    momsanddads = words.filter(
-        (col("word").startswith("mother")) | (col("word").startswith("father"))
+    # get only words one and the other (also getting some noise such as strings starting with word but having something else)
+    twowords = words.filter(
+        (col("word").startswith("apple")) | (col("word").startswith("orange"))
         )
 
     # write df with mother and father to console
-    query = momsanddads \
+    query = twowords \
         .writeStream \
         .format("console") \
         .start()
