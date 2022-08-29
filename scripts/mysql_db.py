@@ -1,3 +1,6 @@
+# this script is a playground for connecting to mysql
+
+
 from __future__ import print_function
 import mysql
 import mysql.connector
@@ -49,9 +52,6 @@ select_df = ("SELECT * FROM counts "
                "WHERE parent='mother'")
 
 cursor.execute(select_df)
-
-# for (parent, count) in cursor:
-#     print(parent, count)
 
 new = 45
 for (parent, count) in cursor:

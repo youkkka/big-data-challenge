@@ -48,20 +48,17 @@ services:
     volumes:
       - .:/project
 
-
   adminer:
     image: adminer
     restart: always
     ports:
       - 8081:8080
 
-
   python-scripts:
     image: python:3
     volumes:
       - .:/project
     depends_on:
-      # - cassandra
       - kafka
       - spark-master
     command: ["python", "/project/scripts/starter.py"]
