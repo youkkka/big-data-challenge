@@ -33,21 +33,27 @@ services:
       - SPARK_SSL_ENABLED=no
     command: "./bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0 /project/scripts/kafka_twitter_spark_streaming.py"
 
-  
-  influxdb:
-    image: influxdb:latest
+  mysql:
+    image: mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
-      - 8086:8086
+      - 3306:3306
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "adminpwd"
+      MYSQL_USER: "localuser"
+      MYSQL_PASSWORD: "localpwd"
+      MYSQL_DATABASE: "localdb"
     volumes:
       - .:/project
-    environment:
-      - INFLUXDB_DB=db0
 
-  # grafana:
-  #   image: grafana/grafana
-  #   volumes:
-  #       - .:/project
-    
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
 
 
   python-scripts:

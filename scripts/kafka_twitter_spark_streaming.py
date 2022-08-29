@@ -9,16 +9,31 @@ import json
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode
 from pyspark.sql.functions import split
+from pyspark.sql.functions import from_json, col, udf
 
 
 
 if __name__ == "__main__":
 
+    db_target_properties = {"user":"localuser", "password":"localpwd"}
+
+    def save_to_mysql(df, batchID):
+        url = "mysql:3306"
+        df.write.jdbc(
+            url="mysql:3306",
+            table="counts",
+            properties=db_target_properties
+        )
+
+
     spark = SparkSession \
         .builder \
-        .appName("PySpark Structured Streaming with Kafka Demo") \
+        .appName("Twitter Structured Streaming from Kafka") \
         .master("local[*]") \
         .getOrCreate()
+
+    sc = spark.sparkContext
+    sc.setLogLevel("WARN")
 
     df = spark \
         .readStream \
@@ -27,40 +42,35 @@ if __name__ == "__main__":
         .option("subscribe", "twitter") \
         .load()
 
-    # df = df.map(lambda v: json.loads(v[1]))
 
+    df = df.selectExpr("CAST(value AS STRING)")
 
-    df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
-
-    # Split the lines into words
     words = df.select(
     explode(
         split(df.value, " ")
     ).alias("word")
     )
 
-    # Generate running word count
-    wordCounts = words.groupBy("word").count()
+    users = words.filter(col("word").startswith("@"))
+    hashtags = words.filter(col("word").startswith("#"))
 
-     # Start running the query that prints the running counts to the console
-    query = wordCounts \
+    moms = words.filter(
+        (col("word").startswith("mother")) | (col("word").startswith("father"))
+        )
+    # dads = words.filter(col("word").startswith("father"))
+
+    # userCounts = users.groupBy("word").count()
+
+    # momCounts = moms.groupBy("word").count()
+
+    query = moms \
         .writeStream \
-        .format("console") \
-        .outputMode("Update") \
-        .option("truncate", "false") \
+        .foreachBatch(save_to_mysql) \
         .start()
 
-    #query.awaitTermination()
-    
-    # df.printSchema()
-
-    # query = df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)") \
+    # query = moms \
     #     .writeStream \
     #     .format("console") \
-    #     .option("truncate", "false") \
     #     .start()
 
-
-
-    print(query.recentProgress)
-    print(query.status)
+    query.awaitTermination()
