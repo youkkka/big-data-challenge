@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 .DS_Store
 
-twitter_keys.py
+./scripts/twitter_keys.py
